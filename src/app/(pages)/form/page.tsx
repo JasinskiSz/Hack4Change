@@ -87,7 +87,7 @@ const FormPage = () => {
       //   opacity: [0.9, 0.8, 0.7],
       // },
     >
-      <Stack direction="column" alignItems="center" spacing={2}>
+      <Stack direction="column" spacing={2}>
         <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
 
         <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
@@ -126,11 +126,9 @@ const FormPage = () => {
             <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
           </DemoContainer>
         </LocalizationProvider>
-        <FormGroup>
-          <div>
-            <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
-            <FormControlLabel control={<Checkbox />} label="Zamknięte" />
-          </div>
+        <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
+          <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
+          <FormControlLabel control={<Checkbox />} label="Zamknięte" />
         </FormGroup>
         <div>
           <FormGroup>

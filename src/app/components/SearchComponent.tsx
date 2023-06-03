@@ -16,14 +16,13 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ setQuery }) => {
 
   const searchEndpoint = (query: string) => `/api/search?q=${query}`;
 
-
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setQuery(query);
     if (query.length) {
       fetch(searchEndpoint(query))
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           setResults(res.results);
         });
     } else {
@@ -45,13 +44,8 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ setQuery }) => {
 
   return (
     <div ref={searchRef}>
-      <input
-        onChange={onChange}
-        onFocus={onFocus}
-        placeholder='Search location'
-        type='text'
-      />
-      { active && results.length > 0 && (
+      <input onChange={onChange} onFocus={onFocus} placeholder="Search location" type="text" />
+      {active && results.length > 0 && (
         <ul>
           {results.map(({ lat, lng }) => (
             <li key={`${lat},${lng}`}>
@@ -59,9 +53,9 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ setQuery }) => {
             </li>
           ))}
         </ul>
-      ) }
+      )}
     </div>
   );
-}
+};
 
 export default SearchComponent;

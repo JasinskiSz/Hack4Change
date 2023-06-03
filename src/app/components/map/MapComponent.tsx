@@ -9,7 +9,6 @@ import { PointerIcon } from './PointerIcon';
 import { GeneratePoint } from './GeneratePoint';
 import axios from 'axios';
 
-
 const GDANSK_POSITION: LatLngExpression = [54.3475, 18.645278];
 
 const Page = () => {
@@ -21,9 +20,10 @@ const Page = () => {
       try {
         const response = await axios.post('http://localhost:3000/api/ShopsWithWasteRecycling', {
           city: 'Gdańsk',
-          shops: ['Żabka'],
+          shops: [], //defaultowo wszystkie (hardcoded)
         });
-        setShopsWithWasteRecycling(response.data.filter(point => point && point.lat));
+        setShopsWithWasteRecycling(response.data.filter((point) => point && point.lat));
+        console.log(shopsWithWasteRecycling);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
     if (response.status === 200) {
-      return res.status(200).json({ address: response.data.address});
+      return res.status(200).json({ address: response.data.address });
     } else {
       throw new Error('Geocoding failed');
     }

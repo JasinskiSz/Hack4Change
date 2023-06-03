@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export async function dbConnect() {
   // sprawdzamy, czy jesteśmy już połączeni
   if (mongoose.connection.readyState >= 1) {
-    console.log("connected already.")
+    console.log('connected already.');
     return;
   }
 
@@ -15,11 +15,11 @@ export async function dbConnect() {
 
 export async function testConnection() {
   try {
-      await dbConnect();
-      console.log('Successfully connected to MongoDB!');
+    await dbConnect();
+    console.log('Successfully connected to MongoDB!');
   } catch (error) {
-      console.error('Failed to connect to MongoDB:', error);
+    console.error('Failed to connect to MongoDB:', error);
   } finally {
-      mongoose.connection.close();
+    mongoose.connection.close();
   }
 }

@@ -14,7 +14,6 @@ export const LocationSearchAutocomplete = (props: { onSelectedLocation: (coordin
   const [searchValue, setSearchValue] = useState('');
   const debouncesSearchValue = useDebounce(searchValue, 500);
 
-  console.log({ options });
   const fetchOptions = async (query: string) => {
     setLoading(true);
     const response = await axios.get<SearchResult<RawResult>[]>(`/api/locations?query=${query}`);

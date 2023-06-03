@@ -15,6 +15,11 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { truncate } from 'fs';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+// import { styled } from '@mui/material/styles';
 
 const currencies = [
   {
@@ -48,77 +53,102 @@ const profits = [
     value: 'karta podarunkowa',
     label: 'karta podarunkowa',
   },
-]
+];
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const FormPage = () => {
+  const [bonus, setBonus] = useState(false);
 
-
-
-const [bonus, setBonus] = useState(false)
-
-const handleSwitch = () => {
-  setBonus((currentValue)=> !currentValue)
-}
+  const handleSwitch = () => {
+    setBonus((currentValue) => !currentValue);
+  };
 
   return (
     <Box
       component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
+        width: 460,
+        height: 943,
+        '& .MuiTextField-root': { m: 2, width: '25ch' },
       }}
       noValidate
       autoComplete="off"
+
+      // backgroundColor: 'primary.dark',
+      // '&:hover': {
+      //   backgroundColor: 'primary.main',
+      //   opacity: [0.9, 0.8, 0.7],
+      // },
     >
-      <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
-      <TextField
-          id="outlined-select-currency"
-          select
-          label="Kategoria"
-          defaultValue=""
-          helperText=""
-      >
+      <Stack direction="column" spacing={2}>
+        <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
+
+        <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
           {currencies.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
           ))}
-      </TextField>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
-          <div>
-          <MobileTimePicker label={'Otwarcie'} openTo="hours" />
-          <MobileTimePicker label={'Zamknięcie'} openTo="hours" />
-          </div>
-        </DemoContainer>
-      </LocalizationProvider>
-      <div>
-      <FormGroup>
-        <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch}/>
-        {bonus ?       
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Wybierz"
-          defaultValue=""
-          helperText="Wybierz rodzaj profitu"
-      >
-          {profits.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
         </TextField>
-        : null}
-      </FormGroup>
-
-      </div>
-      <TextField
-          id="outlined-multiline-static"
-          label="Dodatkowe informacje"
-          multiline
-          rows={4}
-          defaultValue=""
-        />
+        <div>
+          <Button variant="outlined" size="small">
+            P
+          </Button>
+          <Button variant="outlined" size="small">
+            W
+          </Button>
+          <Button variant="outlined" size="small">
+            Ś
+          </Button>
+          <Button variant="outlined" size="small">
+            C
+          </Button>
+          <Button variant="outlined" size="small">
+            P
+          </Button>
+          <Button variant="outlined" size="small">
+            S
+          </Button>
+          <Button variant="outlined" size="small">
+            N
+          </Button>
+        </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']} sx={{ flexDirection: 'row' }}>
+            <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
+            <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
+          </DemoContainer>
+        </LocalizationProvider>
+        <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
+          <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
+          <FormControlLabel control={<Checkbox />} label="Zamknięte" />
+        </FormGroup>
+        <div>
+          <FormGroup>
+            <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch} />
+            {bonus ? (
+              <TextField id="outlined-select-currency" select label="Wybierz" defaultValue="" helperText="">
+                {profits.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            ) : null}
+          </FormGroup>
+        </div>
+        <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
+        <Button variant="contained" disableElevation>
+          Dodaj punkt do mapy
+        </Button>
+      </Stack>
     </Box>
   );
 };

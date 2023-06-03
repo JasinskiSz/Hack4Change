@@ -49,6 +49,7 @@ const Page = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
+        <AddPoint lat={undefined} lng={undefined} />
         {shopsWithWasteRecycling.length > 0 && <GeneratePoint points={shopsWithWasteRecycling} />}
         {selectedAddress && <RecenterAutomatically lat={selectedAddress.lat} lng={selectedAddress.lng} />}
       </MapContainer>

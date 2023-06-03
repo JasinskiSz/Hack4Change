@@ -1,16 +1,37 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { LatLng, LatLngExpression } from 'leaflet';
 import { LocationSearchAutocomplete } from './LocationSearchAutocomplete';
 import { RecenterAutomatically } from './RecenterAutomatically';
 import { AddPoint } from './AddPoint';
 import { PointerIcon } from './PointerIcon';
+import { GeneratePoint } from './GeneratePoint';
+import axios from 'axios';
+
 
 const GDANSK_POSITION: LatLngExpression = [54.3475, 18.645278];
 
 const Page = () => {
   const [selectedAddress, setSelectedAddress] = useState<LatLng | null>(null);
+  const [shopsWithWasteRecycling, setShopsWithWasteRecycling] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post('http://localhost:3000/api/ShopsWithWasteRecycling', {
+          city: 'Gdańsk',
+          shops: ['Żabka'],
+        });
+        setShopsWithWasteRecycling(response.data.filter(point => point && point.lat));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleSelectedLocation = (coordinates: LatLng) => {
     setSelectedAddress(coordinates);
   };
@@ -28,7 +49,7 @@ const Page = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-        <AddPoint />
+        {shopsWithWasteRecycling.length > 0 && <GeneratePoint points={shopsWithWasteRecycling} />}
         {selectedAddress && <RecenterAutomatically lat={selectedAddress.lat} lng={selectedAddress.lng} />}
       </MapContainer>
     </div>

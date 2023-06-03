@@ -1,11 +1,14 @@
-"use client"
-import React, { useState } from 'react';
-import MapComponent from './components/map/MapComponent';
-import SearchComponent from './components/SearchComponent';
-import { Coordinates } from './types';
+import React, { useState, Dispatch, SetStateAction } from 'react';
+import MapComponent from '../../components/map/MapComponent';
+import SearchComponent from '../../components/SearchComponent';
+
+interface Location {
+  lat: number;
+  lng: number;
+}
 
 const MapPage: React.FC = () => {
-  const [location, setLocation] = useState<Coordinates|null>(null);
+  const [location, setLocation] = useState<Location | null>(null);
   const [query, setQuery] = useState('');
 
   return (

@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 async function dbConnect() {
-  // jeśli jesteśmy już połączeni, nie trzeba nic robić
+  // sprawdzamy, czy jesteśmy już połączeni
   if (mongoose.connection.readyState >= 1) {
     return;
   }
@@ -9,6 +9,8 @@ async function dbConnect() {
   return mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
   });
 }
 

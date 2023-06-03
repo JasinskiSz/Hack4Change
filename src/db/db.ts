@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 export async function dbConnect() {
   // sprawdzamy, czy jesteśmy już połączeni
   if (mongoose.connection.readyState >= 1) {
@@ -22,4 +23,3 @@ export async function testConnection() {
       mongoose.connection.close();
   }
 }
-

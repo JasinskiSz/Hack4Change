@@ -1,5 +1,6 @@
 "use client"
-import {dbConnect, testConnection} from "../../db/db"
+
+import {dbConnect} from "../../db/db"
 
 // var conn = dbConnect();
 // conn.
@@ -7,8 +8,7 @@ import {dbConnect, testConnection} from "../../db/db"
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-    await testConnection();
-      res.status(200).json({ text: 'Hello World' });
+      await dbConnect();
     } else {
       res.setHeader('Allow', ['GET']);
       res.status(405).end(`Method ${req.method} Not Allowed`);

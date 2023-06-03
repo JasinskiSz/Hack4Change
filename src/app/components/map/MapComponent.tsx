@@ -5,19 +5,13 @@ import 'leaflet/dist/leaflet.css';
 import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 import { Icon } from 'leaflet';
 import { LatLng, LatLngExpression, latLng } from 'leaflet';
-import { OpenCageProvider } from 'leaflet-geosearch';
 import 'node_modules/leaflet-geosearch/dist/geosearch.css';
 import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 import { RawResult } from 'leaflet-geosearch/dist/providers/openCageProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import axios from 'axios';
 
 const CustomIcon = new Icon({ iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41] });
-
-const provider = new OpenCageProvider({
-  params: {
-    key: 'secret',
-  },
-});
 
 function Asynchronous(props: {
   options: { label: string; value: unknown }[];
@@ -89,9 +83,10 @@ const LocationSearch = () => {
 
   const fetchOptions = async (query: string) => {
     setLoading(true);
-    const response = await provider.search({ query });
+    // const response = await provider.search({ query });
+    const response = await axios.get<SearchResult<RawResult>[]>(`/api/locations?query=${query}`);
     setLoading(false);
-    setOptions(response);
+    setOptions(response.data);
   };
 
   useEffect(() => {
@@ -102,7 +97,7 @@ const LocationSearch = () => {
 
   const autocompleteOptions = options.map((option) => {
     return {
-      label: option.label,
+      label: option.formatted,
       value: option.raw,
     };
   });

@@ -35,14 +35,26 @@ export const LocationSearchAutocomplete = (props: { onSelectedLocation: (coordin
   });
 
   return (
-    <Asynchronous
-      options={autocompleteOptions}
-      loading={loading}
-      handleOptionSelected={(value) => {
-        props.onSelectedLocation(value.geometry);
-      }}
-      handleValueChange={setSearchValue}
-    />
+    <div className="search-bar">
+      <Asynchronous
+        options={autocompleteOptions}
+        loading={loading}
+        handleOptionSelected={(value) => {
+          props.onSelectedLocation(value.geometry);
+        }}
+        handleValueChange={setSearchValue}
+      />
+      <style jsx>{`
+        .search-bar {
+          position: sticky;
+          top: 0;
+          z-index: 9999;
+          background: white;
+          width: 84%;
+          margin-left: 5%;
+        }
+      `}</style>
+    </div>
   );
 };
 
@@ -55,6 +67,7 @@ function Asynchronous(props: {
   const [open, setOpen] = React.useState(false);
   return (
     <Autocomplete
+      fullWidth
       id="asynchronous-demo"
       open={open}
       onOpen={() => {
@@ -79,6 +92,7 @@ function Asynchronous(props: {
         <TextField
           {...params}
           label="Adres"
+          fullWidth
           InputProps={{
             ...params.InputProps,
             endAdornment: (

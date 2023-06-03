@@ -43,7 +43,7 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ setQuery }) => {
   }, []);
 
   return (
-    <div ref={searchRef}>
+    <div ref={searchRef} className="search-bar">
       <input onChange={onChange} onFocus={onFocus} placeholder="Search location" type="text" />
       {active && results.length > 0 && (
         <ul>

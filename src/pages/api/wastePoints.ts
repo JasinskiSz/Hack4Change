@@ -10,14 +10,15 @@ export default async function handler(req, res) {
       res.status(200).json(points);
     } else if(req.method === "POST") {
       await dbConnect();
-      const { name, lat, lng } = req.body;
+      const { name, city, lat, lng, description, categories, isProfit, WhatProfit, additionalInfo, imagePath, isConfirmed} = req.body;
+     
       const newWasteDropOffPoint = {
-          name,
-          lat,
-          lng
+        name, city, lat, lng, description, categories, isProfit, WhatProfit, additionalInfo, imagePath, isConfirmed
       }
+      
       try {
           const createdPoint = await wasteDropOffPointSchema.create(newWasteDropOffPoint);
+
           res.status(201).json({ success: true, data: createdPoint });
       }
       catch(error) {

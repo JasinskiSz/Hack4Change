@@ -1,5 +1,13 @@
-export default function handler(req, res) {
+"use client"
+import {dbConnect, testConnection} from "../../db/db"
+
+// var conn = dbConnect();
+// conn.
+
+
+export default async function handler(req, res) {
     if (req.method === 'GET') {
+    await testConnection();
       res.status(200).json({ text: 'Hello World' });
     } else {
       res.setHeader('Allow', ['GET']);

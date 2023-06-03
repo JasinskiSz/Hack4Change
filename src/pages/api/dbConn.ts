@@ -8,7 +8,7 @@ import {dbConnect, testConnection} from "../../db/db"
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-    await dbConnect();
+      await dbConnect();
       res.status(200).json({ text: 'Hello World' });
       const newLoc = await wasteDropOffPointSchema.create({ name: 'Ekomat', lng: 1, lat: 2 });
       await newLoc.save();

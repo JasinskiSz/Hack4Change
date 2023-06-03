@@ -6,11 +6,12 @@ const wasteDropOffPointSchema = new mongoose.Schema({
   lat: Number,
   lng: Number,
   description: String,
-  category: String,
-  profit: Boolean,
+  categories: [String],
+  isProfit: Boolean,
   WhatProfit: String,
   additionalInfo: String,
-  imagePath: String
+  imagePath: String,
+  isConfirmed: Boolean
 }, {
   timestamps: true,  // dodaje pola createdAt i updatedAt
 });

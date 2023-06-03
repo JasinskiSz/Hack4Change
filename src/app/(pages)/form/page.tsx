@@ -53,7 +53,7 @@ const profits = [
     value: 'karta podarunkowa',
     label: 'karta podarunkowa',
   },
-]
+];
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -64,44 +64,33 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const FormPage = () => {
+  const [bonus, setBonus] = useState(false);
 
-const [bonus, setBonus] = useState(false)
-
-const handleSwitch = () => {
-  setBonus((currentValue) => !currentValue)
-}
+  const handleSwitch = () => {
+    setBonus((currentValue) => !currentValue);
+  };
 
   return (
     <Box
       component="form"
       sx={{
         width: 460,
-         height: 943,
+        height: 943,
         '& .MuiTextField-root': { m: 2, width: '25ch' },
       }}
       noValidate
       autoComplete="off"
-     
-       
-        // backgroundColor: 'primary.dark',
-        // '&:hover': {
-        //   backgroundColor: 'primary.main',
-        //   opacity: [0.9, 0.8, 0.7],
-        // },
-     
+
+      // backgroundColor: 'primary.dark',
+      // '&:hover': {
+      //   backgroundColor: 'primary.main',
+      //   opacity: [0.9, 0.8, 0.7],
+      // },
     >
-    <Stack direction="column"
-     alignItems="center" spacing={2}>
-   
-      <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
-    
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Kategoria"
-          defaultValue=""
-          helperText=""
-        >
+      <Stack direction="column" alignItems="center" spacing={2}>
+        <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
+
+        <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
           {currencies.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
@@ -109,74 +98,59 @@ const handleSwitch = () => {
           ))}
         </TextField>
         <div>
-      <Button variant="outlined" size="small" >
-          P
-        </Button>
-        <Button variant="outlined" size="small" >
-          W
-        </Button>
-        <Button variant="outlined" size="small" >
-          Ś
-        </Button>
-        <Button variant="outlined" size="small" >
-          C
-        </Button>
-        <Button variant="outlined" size="small" >
-          P
-        </Button>
-        <Button variant="outlined" size="small" >
-          S
-        </Button>
-        <Button variant="outlined" size="small">
-          N
-        </Button>
-      </div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
+          <Button variant="outlined" size="small">
+            P
+          </Button>
+          <Button variant="outlined" size="small">
+            W
+          </Button>
+          <Button variant="outlined" size="small">
+            Ś
+          </Button>
+          <Button variant="outlined" size="small">
+            C
+          </Button>
+          <Button variant="outlined" size="small">
+            P
+          </Button>
+          <Button variant="outlined" size="small">
+            S
+          </Button>
+          <Button variant="outlined" size="small">
+            N
+          </Button>
+        </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']} sx={{ flexDirection: 'row' }}>
+            <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
+            <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
+          </DemoContainer>
+        </LocalizationProvider>
+        <FormGroup>
           <div>
-          <MobileTimePicker label={'Otwarcie'} openTo="hours"/>
-          <MobileTimePicker label={'Zamknięcie'} openTo="hours"/>
+            <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
+            <FormControlLabel control={<Checkbox />} label="Zamknięte" />
           </div>
-        </DemoContainer>
-      </LocalizationProvider>
-      <FormGroup>
+        </FormGroup>
         <div>
-      <FormControlLabel control={<Checkbox  />} label="Czynne całą dobę" />
-      <FormControlLabel control={<Checkbox  />} label="Zamknięte" />
-      </div>
-    </FormGroup>
-      <div>
-      <FormGroup>
-        <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch}/>
-        {bonus ?       
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Wybierz"
-          defaultValue=""
-          helperText=""
-      >
-          {profits.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        : null}
-      </FormGroup>
-
-      </div>
-      <TextField
-          id="outlined-multiline-static"
-          label="Dodatkowe informacje"
-          multiline
-          rows={4}
-          defaultValue=""
-        />
-         <Button variant="contained" disableElevation >
-      Dodaj punkt do mapy
-    </Button>
-    </Stack>
+          <FormGroup>
+            <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch} />
+            {bonus ? (
+              <TextField id="outlined-select-currency" select label="Wybierz" defaultValue="" helperText="">
+                {profits.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            ) : null}
+          </FormGroup>
+        </div>
+        <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
+        <Button variant="contained" disableElevation>
+          Dodaj punkt do mapy
+        </Button>
+      </Stack>
     </Box>
   );
 };

@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { LatLng, LatLngExpression } from 'leaflet';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import { Icon } from 'leaflet';
+import { LatLng, LatLngExpression, latLng } from 'leaflet';
 
 const AddPoint = () => {
   const [currentPoint, setCurrentPoint] = useState<LatLng | null>(null);
@@ -12,14 +14,17 @@ const AddPoint = () => {
       setCurrentPoint(event.latlng);
     },
   });
-  console.log(currentPoint);
 
   if (currentPoint) {
-    <Marker position={currentPoint}>
-      <Popup>
-        A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-    </Marker>;
+    const point = latLng(currentPoint);
+
+    return (
+      <Marker position={point} icon={new Icon({ iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    );
   }
 
   return null;

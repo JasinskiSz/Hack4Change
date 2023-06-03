@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,47 +10,57 @@ import Switch from '@mui/material/Switch';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
-import { truncate } from 'fs';
+// import { truncate } from 'fs';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LocationSearchAutocomplete } from '@/app/components/map/LocationSearchAutocomplete';
 // import { styled } from '@mui/material/styles';
+
+const theme1 = createTheme({
+  palette: {
+    primary: {
+      main: '#56528D', 
+    },
+  },
+});
 
 const currencies = [
   {
     value: 'baterie',
-    label: 'baterie',
+    label: 'Baterie',
   },
   {
     value: 'leki',
-    label: 'leki',
+    label: 'Leki',
   },
   {
     value: 'elektro',
-    label: 'elektro',
+    label: 'Elektro',
   },
   {
     value: 'butelki',
-    label: 'butelki',
+    label: 'Butelki',
   },
 ];
 
 const profits = [
   {
     value: 'punkty',
-    label: 'punkty',
+    label: 'Punkty',
   },
   {
     value: 'zwrot gotówki',
-    label: 'zwrot gotówki',
+    label: 'Zwrot gotówki',
   },
   {
     value: 'karta podarunkowa',
-    label: 'karta podarunkowa',
+    label: 'Karta podarunkowa',
   },
 ];
 
@@ -71,12 +80,14 @@ const FormPage = () => {
   };
 
   return (
+    <ThemeProvider theme={theme1}>
     <Box
       component="form"
       sx={{
-        width: 460,
-        height: 943,
-        '& .MuiTextField-root': { m: 2, width: '25ch' },
+        display: 'flex', flexDirection: 'row',
+        // width: 460,
+        // height: 943,
+        '& .MuiTextField-root': { m: 0, marginTop: 2},
       }}
       noValidate
       autoComplete="off"
@@ -87,7 +98,8 @@ const FormPage = () => {
       //   opacity: [0.9, 0.8, 0.7],
       // },
     >
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column" justifyContent={'center'} spacing={2} marginLeft={0}>
+        <h2 style={{textAlign: 'center', color: '#56528D'}}>Dodaj punkt</h2>
         <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
 
         <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
@@ -97,6 +109,7 @@ const FormPage = () => {
             </MenuItem>
           ))}
         </TextField>
+        <LocationSearchAutocomplete />
         <div>
           <Button variant="outlined" size="small">
             P
@@ -121,9 +134,9 @@ const FormPage = () => {
           </Button>
         </div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']} sx={{ flexDirection: 'row' }}>
-            <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
-            <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ maxWidth: 200, minWidth: 'auto !important' }} />
+          <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']} sx={{ flexDirection: 'row', justifyItems: 'top' ,gap: 1 }} >
+            <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{  minWidth: 'auto !important' }} />
+            <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{  minWidth: 'auto !important' }} />
           </DemoContainer>
         </LocalizationProvider>
         <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
@@ -144,12 +157,15 @@ const FormPage = () => {
             ) : null}
           </FormGroup>
         </div>
-        <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
-        <Button variant="contained" disableElevation>
+        <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue=""  />
+        
+        <Button variant="contained" size="large">
           Dodaj punkt do mapy
         </Button>
+        
       </Stack>
     </Box>
+    </ThemeProvider>
   );
 };
 

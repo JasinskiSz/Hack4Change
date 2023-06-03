@@ -1,24 +1,52 @@
-"use client"
-import React from 'react'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'
+'use client';
+import React, { useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import { Icon } from 'leaflet';
+import { LatLng, LatLngExpression, latLng } from 'leaflet';
 
-const position = [51.505, -0.09];
+const AddPoint = () => {
+  const [currentPoint, setCurrentPoint] = useState<LatLng | null>(null);
+  const map = useMapEvents({
+    click: (event) => {
+      console.log(event.latlng);
+      setCurrentPoint(event.latlng);
+    },
+  });
+
+  if (currentPoint) {
+    const point = latLng(currentPoint);
+
+    return (
+      <Marker position={point} icon={new Icon({ iconUrl: markerIconPng.src, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    );
+  }
+
+  return null;
+};
+
+const GDANSK_POSITION: LatLngExpression = [54.3475, 18.645278];
 
 const page = () => {
   return (
-    <MapContainer center={position} zoom={13} scrollWheelZoom={false}  style={{ height: '100vh' }}>
-    <TileLayer
-      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-    <Marker position={position}>
-      <Popup>
-        A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-    </Marker>
-  </MapContainer>
-  )
-}
+    <MapContainer center={GDANSK_POSITION} zoom={20} scrollWheelZoom={false} style={{ height: '100vh' }}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={GDANSK_POSITION}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+      <AddPoint />
+    </MapContainer>
+  );
+};
 
-export default page
+export default page;

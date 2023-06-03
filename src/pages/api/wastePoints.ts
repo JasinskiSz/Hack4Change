@@ -5,11 +5,11 @@ import { dbConnect } from "@/db/db";
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-      dbConnect();
+      await dbConnect();
       const points = await wasteDropOffPointSchema.find({});
       res.status(200).json(points);
     } else if(req.method === "POST") {
-      dbConnect();
+      await dbConnect();
       const { name, lat, lng } = req.body;
       const newWasteDropOffPoint = {
           name,

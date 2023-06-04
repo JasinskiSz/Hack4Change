@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const wasteDropOffPointSchema = new mongoose.Schema(
   {
     name: String,
-    city: String,
+    adress: String,
     lat: Number,
     lng: Number,
     description: String,
@@ -15,7 +15,7 @@ const wasteDropOffPointSchema = new mongoose.Schema(
     isConfirmed: Boolean,
   },
   {
-    timestamps: true, // dodaje pola createdAt i updatedAt
+    timestamps: true,
   },
 );
 

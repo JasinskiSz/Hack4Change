@@ -120,7 +120,7 @@ const FormPage = () => {
 
   return (
     <ThemeProvider theme={theme1}>
-      <Grid container spacing={2}>
+      <Grid container>
         <Grid
           item
           xs={4}
@@ -130,7 +130,7 @@ const FormPage = () => {
             flexDirection: 'row',
             // width: 460,
             // height: 943,
-            '& .MuiTextField-root': { m: 0, marginTop: 2 },
+            // '& .MuiTextField-root': { m: 0, marginTop: 2 },
           }}
           noValidate
           autoComplete="off"
@@ -142,7 +142,7 @@ const FormPage = () => {
           //   opacity: [0.9, 0.8, 0.7],
           // },
         >
-          <Stack direction="column" justifyContent={'center'} spacing={2} marginLeft={0}>
+          <Stack direction="column" justifyContent={'center'} spacing={2} padding={4} width="100%">
             <h2 style={{ textAlign: 'center', color: '#56528D' }}>Dodaj punkt</h2>
             <TextField
               id="outlined-basic"
@@ -180,13 +180,17 @@ const FormPage = () => {
               })}
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={['MobileDateTimePicker', 'MobileDateTimePicker']}
-                sx={{ flexDirection: 'row', justifyItems: 'top', gap: 1 }}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyItems: 'top',
+                  gap: 1,
+                }}
               >
                 <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
                 <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
-              </DemoContainer>
+              </Box>
             </LocalizationProvider>
             <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
               <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />

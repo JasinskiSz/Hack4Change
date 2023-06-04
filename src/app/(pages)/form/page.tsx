@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FormEvent, useReducer, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,6 +20,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocationSearchAutocomplete } from '@/app/components/map/LocationSearchAutocomplete';
+import { LatLng } from 'leaflet';
+import { AddProductPayload } from '@/app/types';
 // import { styled } from '@mui/material/styles';
 
 const theme1 = createTheme({
@@ -73,11 +75,36 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const FormPage = () => {
+  const [formInput, setFormInput] = useReducer((state, newState) => ({ ...state, ...newState }), {
+    productName: '',
+    categories: '',
+  });
+
+  const handleInput = (evt) => {
+    const name = evt.target.name;
+    const newValue = evt.target.value;
+    setFormInput({ [name]: newValue });
+  };
+
   const [bonus, setBonus] = useState(false);
 
   const handleSwitch = () => {
     setBonus((currentValue) => !currentValue);
   };
+
+  const handleSelectedLocation = (locationData: LatLng) => {
+    console.log({ locationData });
+  };
+
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    console.log({ formInput });
+
+    // const addProduct: AddProductPayload = {
+    //   additionalInfo: event.target['additionalInfo'].value,
+    //   categories,
+    // };
+  }
 
   return (
     <ThemeProvider theme={theme1}>
@@ -92,6 +119,7 @@ const FormPage = () => {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={handleFormSubmit}
 
         // backgroundColor: 'primary.dark',
         // '&:hover': {
@@ -101,20 +129,36 @@ const FormPage = () => {
       >
         <Stack direction="column" justifyContent={'center'} spacing={2} marginLeft={0}>
           <h2 style={{ textAlign: 'center', color: '#56528D' }}>Dodaj punkt</h2>
-          <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
+          <TextField
+            id="outlined-basic"
+            name="productName"
+            defaultValue={formInput.productName}
+            onChange={handleInput}
+            label="Nazwa produktu"
+            variant="outlined"
+          />
 
-          <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
+          <TextField
+            id="outlined-select-currency"
+            name="categories"
+            value={formInput.categories}
+            onChange={handleInput}
+            select
+            label="Kategoria"
+            defaultValue=""
+            helperText=""
+          >
             {currencies.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
           </TextField>
-          <LocationSearchAutocomplete />
+          <LocationSearchAutocomplete onSelectedLocation={handleSelectedLocation} />
           <div>
-            {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter) => {
+            {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => {
               return (
-                <Button variant="outlined" size="small" key={letter}>
+                <Button variant="outlined" size="small" key={index}>
                   {letter}
                 </Button>
               );
@@ -145,9 +189,9 @@ const FormPage = () => {
               </TextField>
             ) : null}
           </FormGroup>
-          <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
+          <TextField id="outlined-multiline-static" name="additionalInfo" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
 
-          <Button variant="contained" size="large">
+          <Button variant="contained" size="large" type="submit">
             Dodaj punkt do mapy
           </Button>
         </Stack>

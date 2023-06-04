@@ -24,8 +24,6 @@ export default async function handler(req, res) {
       imagePath,
       isConfirmed,
     };
-    console.log(newWasteDropOffPoint);
-
     try {
       const createdPoint = await wasteDropOffPointSchema.create(newWasteDropOffPoint);
 

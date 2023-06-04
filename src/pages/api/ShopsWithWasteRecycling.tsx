@@ -1,3 +1,4 @@
+import wasteDropOffPointSchema from '@/backend/models/wasteDropOffPointSchema';
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -62,7 +63,7 @@ export default async function handler(req, res) {
         if (element.tags) {
           return {
             name: element.tags.name != null ? element.tags.name : 'Paczkomat',
-            city: element.tags['addr:city'],
+            city: `${element.tags['addr:street']}, ${element.tags['addr:postcode']}} ${element.tags['addr:city']}, ${element.tags['addr:country']}}`,
             lat: element.lat,
             lng: element.lon,
             description: 'Punkt przyjmuje elektrośmieci.',
@@ -78,5 +79,10 @@ export default async function handler(req, res) {
       .filter(Boolean),
   );
 
-  return res.status(200).json(results);
+  const dbResults = await wasteDropOffPointSchema.find({});
+  const combinedResults = [...results, ...dbResults];
+
+  return res.status(200).json(combinedResults);
+
+  // return res.status(200).json(results);
 }

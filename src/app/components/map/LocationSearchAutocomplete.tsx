@@ -8,7 +8,9 @@ import axios from 'axios';
 import { useDebounce } from '@/app/utils/useDebounce';
 import { LatLng } from 'leaflet';
 
-export const LocationSearchAutocomplete = (props: { onSelectedLocation: (coordinates: LatLng) => void }) => {
+export type LocationSearchAutocompleteResult = LatLng & { address: string };
+
+export const LocationSearchAutocomplete = (props: { onSelectedLocation: (location: LocationSearchAutocompleteResult) => void }) => {
   const [options, setOptions] = useState<SearchResult<RawResult>[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState('');
@@ -40,20 +42,15 @@ export const LocationSearchAutocomplete = (props: { onSelectedLocation: (coordin
         options={autocompleteOptions}
         loading={loading}
         handleOptionSelected={(value) => {
-          props.onSelectedLocation(value.geometry);
+          console.log({ value });
+          props.onSelectedLocation({
+            lat: value.geometry.lat,
+            lng: value.geometry.lng,
+            address: value.formatted,
+          });
         }}
         handleValueChange={setSearchValue}
       />
-      <style jsx>{`
-        .search-bar {
-          position: sticky;
-          top: 0;
-          z-index: 9999;
-          background: white;
-          width: 84%;
-          margin-left: 5%;
-        }
-      `}</style>
     </div>
   );
 };

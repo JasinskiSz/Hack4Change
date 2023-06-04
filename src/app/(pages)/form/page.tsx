@@ -19,7 +19,7 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { LocationSearchAutocomplete } from '@/app/components/map/LocationSearchAutocomplete';
+import { LocationSearchAutocomplete, LocationSearchAutocompleteResult } from '@/app/components/map/LocationSearchAutocomplete';
 import { LatLng } from 'leaflet';
 import { AddProductPayload } from '@/app/types';
 // import { styled } from '@mui/material/styles';
@@ -92,13 +92,12 @@ const FormPage = () => {
     setBonus((currentValue) => !currentValue);
   };
 
-  const handleSelectedLocation = (locationData: LatLng) => {
-    console.log({ locationData });
-  };
+  const [location, setLocation] = useState<LocationSearchAutocompleteResult | null>(null);
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     console.log({ formInput });
+    console.log({ location });
 
     // const addProduct: AddProductPayload = {
     //   additionalInfo: event.target['additionalInfo'].value,
@@ -154,7 +153,7 @@ const FormPage = () => {
               </MenuItem>
             ))}
           </TextField>
-          <LocationSearchAutocomplete onSelectedLocation={handleSelectedLocation} />
+          <LocationSearchAutocomplete onSelectedLocation={setLocation} />
           <div>
             {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => {
               return (

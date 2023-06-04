@@ -20,7 +20,7 @@ const Page = () => {
       try {
         const response = await axios.post('http://localhost:3000/api/ShopsWithWasteRecycling', {
           city: 'Gdańsk',
-          shops: [], //defaultowo wszystkie (hardcoded)
+          shops: [],
         });
         setShopsWithWasteRecycling(response.data.filter((point) => point && point.lat));
         console.log(shopsWithWasteRecycling);

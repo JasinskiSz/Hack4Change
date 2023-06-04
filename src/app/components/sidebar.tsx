@@ -10,7 +10,6 @@ const Sidebar = () => {
   const toggleSidebar = () => setVisible(!visible);
 
   const onAddPoint = () => {
-    // Tutaj możesz zaimplementować logikę dodawania punktu
     console.log('Dodaj punkt');
   };
 

@@ -12,7 +12,6 @@ export const useShopsWithWasteRecycling = () => {
           shops: [],
         });
         setShopsWithWasteRecycling(response.data.filter((point) => point && point.lat));
-        console.log(shopsWithWasteRecycling);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

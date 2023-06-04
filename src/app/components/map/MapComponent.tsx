@@ -32,6 +32,7 @@ const theme1 = createTheme({
     },
   },
 });
+
 const DistanceSlider = () => {
   const [value, setValue] = useState(5);
 

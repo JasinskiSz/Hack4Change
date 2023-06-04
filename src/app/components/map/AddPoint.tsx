@@ -2,10 +2,18 @@
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import { useState } from 'react';
 import { LatLng, latLng } from 'leaflet';
-import { PointerIcon, orangeIcon } from './PointerIcon';
+import { PointerIcon } from './PointerIcon';
 import { useEffect } from 'react';
 
-export const AddPoint = ({ lat, lng }) => {
+export const AddPoint = ({
+  lat,
+  lng,
+  onSelectedPointChange,
+}: {
+  lat?: LatLng['lat'];
+  lng?: LatLng['lng'];
+  onSelectedPointChange: (coordinates: LatLng) => void;
+}) => {
   const [currentPoint, setCurrentPoint] = useState<LatLng | null>(null);
 
   useEffect(() => {
@@ -16,8 +24,8 @@ export const AddPoint = ({ lat, lng }) => {
 
   useMapEvents({
     click: (event) => {
-      console.log(event.latlng);
       setCurrentPoint(event.latlng);
+      onSelectedPointChange(event.latlng);
     },
   });
 

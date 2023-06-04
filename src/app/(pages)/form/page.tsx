@@ -22,6 +22,9 @@ import { LocationSearchAutocomplete, LocationSearchAutocompleteResult } from '@/
 import Map from '@/app/components/map/MapComponent';
 import { useShopsWithWasteRecycling } from '@/app/components/map/shopsWithWasteRecycling';
 import { Grid } from '@mui/material';
+import axios from 'axios';
+import { LatLngLiteral } from 'leaflet';
+import { OpenStreetAddress } from '@/app/types';
 
 const theme1 = createTheme({
   palette: {
@@ -105,6 +108,16 @@ const FormPage = () => {
     // };
   }
 
+  async function handleSelectedPointChange({ lat, lng }: LatLngLiteral) {
+    const result = await axios.get<OpenStreetAddress>(`/api/locations?lat=${lat}&lng=${lng}`, {});
+    const { city, country, postcode, road } = result.data;
+    // Mostowa, 58-563 Przesieka, Poland
+    const address = `${road}, ${postcode} ${city}, ${country}`;
+    setLocation({ lat, lng, address });
+  }
+
+  console.log({ 'location?.address': location?.address });
+
   return (
     <ThemeProvider theme={theme1}>
       <Grid container spacing={2}>
@@ -156,7 +169,7 @@ const FormPage = () => {
                 </MenuItem>
               ))}
             </TextField>
-            <LocationSearchAutocomplete onSelectedLocation={setLocation} />
+            <LocationSearchAutocomplete onSelectedLocation={setLocation} searchValueOverride={location?.address} />
             <div>
               {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => {
                 return (
@@ -206,7 +219,11 @@ const FormPage = () => {
           </Stack>
         </Grid>
         <Grid item xs={8}>
-          <Map shopsWithWasteRecycling={shopsWithWasteRecycling} selectedAddress={location} />
+          <Map
+            shopsWithWasteRecycling={shopsWithWasteRecycling}
+            selectedAddress={location}
+            onSelectedPointChange={handleSelectedPointChange}
+          />
         </Grid>
       </Grid>
     </ThemeProvider>

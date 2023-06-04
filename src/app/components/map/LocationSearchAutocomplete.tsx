@@ -6,16 +6,25 @@ import { RawResult } from 'leaflet-geosearch/dist/providers/openCageProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import axios from 'axios';
 import { useDebounce } from '@/app/utils/useDebounce';
-import { LatLng } from 'leaflet';
+import { LatLngLiteral } from 'leaflet';
 
-export type LocationSearchAutocompleteResult = LatLng & { address: string };
+export type LocationSearchAutocompleteResult = LatLngLiteral & { address: string };
 
-export const LocationSearchAutocomplete = (props: { onSelectedLocation: (location: LocationSearchAutocompleteResult) => void }) => {
+export const LocationSearchAutocomplete = (props: {
+  onSelectedLocation: (location: LocationSearchAutocompleteResult) => void;
+  searchValueOverride?: string;
+}) => {
   const [options, setOptions] = useState<SearchResult<RawResult>[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState('');
-  const debouncesSearchValue = useDebounce(searchValue, 500);
 
+  useEffect(() => {
+    if (props.searchValueOverride) {
+      setSearchValue(props.searchValueOverride);
+    }
+  }, [props.searchValueOverride]);
+  const debouncesSearchValue = useDebounce(searchValue, 500);
+  // nie robić dwa razy takiego samego zapytania jak przychodzi z góry
   const fetchOptions = async (query: string) => {
     setLoading(true);
     const response = await axios.get<SearchResult<RawResult>[]>(`/api/locations?query=${query}`);
@@ -24,7 +33,7 @@ export const LocationSearchAutocomplete = (props: { onSelectedLocation: (locatio
   };
 
   useEffect(() => {
-    if (debouncesSearchValue) {
+    if (debouncesSearchValue && debouncesSearchValue !== props.searchValueOverride) {
       fetchOptions(debouncesSearchValue);
     }
   }, [debouncesSearchValue]);
@@ -50,6 +59,7 @@ export const LocationSearchAutocomplete = (props: { onSelectedLocation: (locatio
           });
         }}
         handleValueChange={setSearchValue}
+        searchValueOverride={props.searchValueOverride}
       />
     </div>
   );
@@ -60,21 +70,36 @@ function Asynchronous(props: {
   handleValueChange: (value: string) => void;
   handleOptionSelected: (value: any) => void;
   loading: boolean;
+  searchValueOverride?: string;
 }) {
   const [open, setOpen] = React.useState(false);
+  const [inputValue, setInputValue] = useState('');
+  console.log({ inputValue });
+  useEffect(() => {
+    if (props.searchValueOverride) {
+      setInputValue(props.searchValueOverride);
+    }
+  }, [props.searchValueOverride]);
+
   return (
     <Autocomplete
       fullWidth
       id="asynchronous-demo"
       open={open}
+      inputValue={inputValue}
       onOpen={() => {
         setOpen(true);
       }}
       onClose={() => {
         setOpen(false);
       }}
-      onInputChange={(_event, value) => {
+      onInputChange={(_event, value, reason) => {
+        // this will break reset but fix new address
+        if (reason === 'reset') {
+          return;
+        }
         props.handleValueChange(value);
+        setInputValue(value);
       }}
       filterOptions={(x) => x}
       onChange={(_event, option) => {

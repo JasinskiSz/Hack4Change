@@ -7,6 +7,7 @@ import { RecenterAutomatically } from './RecenterAutomatically';
 import { AddPoint } from './AddPoint';
 import { PointerIcon } from './PointerIcon';
 import { GeneratePoint } from './GeneratePoint';
+import axios from 'axios';
 import { Box, Slider, ThemeProvider, Typography, createTheme } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -51,10 +52,6 @@ const DistanceSlider = () => {
     </ThemeProvider>
   );
 };
-
-const Page = () => {
-  const [selectedAddress, setSelectedAddress] = useState<LatLng | null>(null);
-  const [shopsWithWasteRecycling, setShopsWithWasteRecycling] = useState([]);
 
 const Map = ({ shopsWithWasteRecycling, selectedAddress }: MapProps) => {
   return (

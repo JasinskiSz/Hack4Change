@@ -1,7 +1,7 @@
-'use client';
+'use strict';
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
-import { PointerIcon } from './PointerIcon';
+import { PointerIcon, orangeIcon, redIcon, greenIcon } from './PointerIcon';
 import { Box, Typography, Chip } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -31,27 +31,50 @@ const CategoryChip = styled(Chip)({
 export const GeneratePoint = ({ points }) => {
   return (
     <>
-      {points.map((point, index) => (
-        <Marker key={index} position={point} icon={PointerIcon}>
-          <Popup>
-            <Box>
-              <Box sx={{ mt: 1 }}>
-                <TitleChip label={point.name} />
+      {points.map((point, index) => {
+        let icon;
+        switch (point.name.toLowerCase()) {
+          case 'biedronka':
+            icon = PointerIcon;
+            break;
+          case 'żabka':
+            icon = greenIcon;
+            break;
+          case 'rtv euro agd':
+          case 'mediamarkt':
+            icon = redIcon;
+            break;
+          case 'paczkomat':
+          case 'leroy merlin':
+          case 'castorama':
+            icon = orangeIcon;
+            break;
+          default:
+            icon = PointerIcon;
+        }
+
+        return (
+          <Marker key={index} position={point} icon={icon}>
+            <Popup>
+              <Box>
+                <Box sx={{ mt: 1 }}>
+                  <TitleChip label={point.name} />
+                </Box>
+                <Typography variant="body2">{point.city}</Typography>
+                <Box sx={{ mt: 1 }}>
+                  <CategoryChip label={`Kategorie: ${point.categories}`} />
+                </Box>
+                <Box sx={{ mt: 1 }}>
+                  <DescriptionTypography variant="body2">{point.description}</DescriptionTypography>
+                </Box>
+                <Box sx={{ mt: 1 }}>{point.isProfit ? <ProfitChip label="Zyskowny" /> : <NotProfitChip label="Nie zyskowny" />}</Box>
+                <Typography variant="body2">Zysk: {point.WhatProfit}</Typography>
+                <Typography variant="body2">Dodatkowe informacje: {point.additionalInfo}</Typography>
               </Box>
-              <Typography variant="body2">{point.city}</Typography>
-              <Box sx={{ mt: 1 }}>
-                <CategoryChip label={`Kategorie: ${point.categories}`} />
-              </Box>
-              <Box sx={{ mt: 1 }}>
-                <DescriptionTypography variant="body2">{point.description}</DescriptionTypography>
-              </Box>
-              <Box sx={{ mt: 1 }}>{point.isProfit ? <ProfitChip label="Zyskowny" /> : <NotProfitChip label="Nie zyskowny" />}</Box>
-              <Typography variant="body2">Zysk: {point.WhatProfit}</Typography>
-              <Typography variant="body2">Dodatkowe informacje: {point.additionalInfo}</Typography>
-            </Box>
-          </Popup>
-        </Marker>
-      ))}
+            </Popup>
+          </Marker>
+        );
+      })}
     </>
   );
 };

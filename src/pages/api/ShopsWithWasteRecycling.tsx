@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     if (shop.toLowerCase().includes('paczkomat')) {
       query = `
       [out:json];
-        area["name"="Gdańsk"]->.searchArea;
+        area["name"="${city}"]->.searchArea;
         (node["amenity"="parcel_locker"]["operator"="InPost"](area.searchArea);
         way["amenity"="parcel_locker"]["operator"="InPost"](area.searchArea);
         rel["amenity"="parcel_locker"]["operator"="InPost"](area.searchArea);

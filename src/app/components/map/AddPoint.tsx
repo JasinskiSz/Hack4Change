@@ -2,7 +2,7 @@
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import { useState } from 'react';
 import { LatLng, latLng } from 'leaflet';
-import { PointerIcon } from './PointerIcon';
+import { PointerIcon, orangeIcon } from './PointerIcon';
 import { useEffect } from 'react';
 
 export const AddPoint = ({ lat, lng }) => {

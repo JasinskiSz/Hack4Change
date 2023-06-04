@@ -16,3 +16,11 @@ export interface AddProductPayload {
   imagePath: string;
   isConfirmed: string;
 }
+
+export interface OpenStreetAddress {
+  city: string;
+  country: string;
+  neighbourhood: string;
+  postcode: string;
+  road: string;
+}

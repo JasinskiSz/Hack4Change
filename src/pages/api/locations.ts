@@ -28,7 +28,7 @@ const fetchByCoordinates = async ({ lat, lng }: { lat: number; lng: number }, re
   const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
   if (response.status === 200) {
     console.log(response.data);
-    return res.status(200).json({ address: response.data.address });
+    return res.status(200).json(response.data.address);
   } else {
     throw new Error('Geocoding failed');
   }

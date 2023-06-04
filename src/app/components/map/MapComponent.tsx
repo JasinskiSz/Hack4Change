@@ -1,13 +1,10 @@
 'use strict';
-import React, { useEffect, useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { LatLng, LatLngExpression } from 'leaflet';
-import { LocationSearchAutocomplete } from './LocationSearchAutocomplete';
+import React, { useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import { LatLngExpression, LatLngLiteral } from 'leaflet';
 import { RecenterAutomatically } from './RecenterAutomatically';
 import { AddPoint } from './AddPoint';
-import { PointerIcon } from './PointerIcon';
 import { GeneratePoint } from './GeneratePoint';
-import axios from 'axios';
 import { Box, Slider, ThemeProvider, Typography, createTheme } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -15,7 +12,8 @@ const GDANSK_POSITION: LatLngExpression = [54.3475, 18.645278];
 
 interface MapProps {
   shopsWithWasteRecycling: any[];
-  selectedAddress?: LatLng | null;
+  selectedAddress?: LatLngLiteral | null;
+  onSelectedPointChange: (coordinates: LatLngLiteral) => void;
 }
 const SliderContainer = styled(Box)({
   position: 'fixed',
@@ -53,7 +51,7 @@ const DistanceSlider = () => {
   );
 };
 
-const Map = ({ shopsWithWasteRecycling, selectedAddress }: MapProps) => {
+const Map = ({ shopsWithWasteRecycling, selectedAddress, onSelectedPointChange }: MapProps) => {
   return (
     <div>
       <MapContainer center={GDANSK_POSITION} zoom={15} scrollWheelZoom={false} style={{ height: '100vh', width: '100%' }}>
@@ -61,7 +59,7 @@ const Map = ({ shopsWithWasteRecycling, selectedAddress }: MapProps) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <AddPoint lat={selectedAddress?.lat} lng={selectedAddress?.lng} />
+        <AddPoint lat={selectedAddress?.lat} lng={selectedAddress?.lng} onSelectedPointChange={onSelectedPointChange} />
         {shopsWithWasteRecycling.length > 0 && <GeneratePoint points={shopsWithWasteRecycling} />}
         {selectedAddress && <RecenterAutomatically lat={selectedAddress.lat} lng={selectedAddress.lng} />}
       </MapContainer>

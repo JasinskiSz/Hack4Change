@@ -81,8 +81,9 @@ export default async function handler(req, res) {
       .filter(Boolean),
   );
 
-  const dbResults = await wasteDropOffPointSchema.find({});
-  const combinedResults = [...results, ...dbResults];
+  // const dbResults = await wasteDropOffPointSchema.find({});
+  // const combinedResults = [...results, ...dbResults];
 
-  return res.status(200).json(combinedResults);
+  return res.status(200).json(results);
+  // return res.status(200).json(combinedResults);
 }

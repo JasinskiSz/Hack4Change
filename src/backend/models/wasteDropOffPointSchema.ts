@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const wasteDropOffPointSchema = new mongoose.Schema(
   {
     name: String,
-    adress: String,
+    adress: {},
     lat: Number,
     lng: Number,
     description: String,

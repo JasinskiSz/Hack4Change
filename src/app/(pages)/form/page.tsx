@@ -116,8 +116,9 @@ const FormPage = () => {
     setLocation({ lat, lng, address });
   }
 
-  console.log({ 'location?.address': location?.address });
-
+  const [allDay, setAllDay] = useState(false);
+  const [allClosed, setClosed] = useState(false);
+  const clockDisabled = allDay || allClosed;
   return (
     <ThemeProvider theme={theme1}>
       <Grid container>
@@ -188,13 +189,13 @@ const FormPage = () => {
                   gap: 1,
                 }}
               >
-                <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
-                <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
+                <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} disabled={clockDisabled} />
+                <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} disabled={clockDisabled} />
               </Box>
             </LocalizationProvider>
             <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
-              <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
-              <FormControlLabel control={<Checkbox />} label="Zamknięte" />
+              <FormControlLabel control={<Checkbox />} onChange={(_e, checked) => setAllDay(checked)} label="Czynne całą dobę" />
+              <FormControlLabel control={<Checkbox />} onChange={(_e, checked) => setClosed(checked)} label="Zamknięte" />
             </FormGroup>
             <FormGroup>
               <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch} />

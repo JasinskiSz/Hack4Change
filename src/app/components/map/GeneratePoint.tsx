@@ -60,7 +60,8 @@ export const GeneratePoint = ({ points }) => {
                 <Box sx={{ mt: 1 }}>
                   <TitleChip label={point.name} />
                 </Box>
-                <Typography variant="body2">{point.city}</Typography>
+                {console.log(point.adress)}
+                <Typography variant="body2">{point.adress}</Typography>
                 <Box sx={{ mt: 1 }}>
                   <CategoryChip label={`Kategorie: ${point.categories}`} />
                 </Box>

@@ -25,7 +25,7 @@ import { LocationSearchAutocomplete } from '@/app/components/map/LocationSearchA
 const theme1 = createTheme({
   palette: {
     primary: {
-      main: '#56528D', 
+      main: '#56528D',
     },
   },
 });
@@ -81,69 +81,58 @@ const FormPage = () => {
 
   return (
     <ThemeProvider theme={theme1}>
-    <Box
-      component="form"
-      sx={{
-        display: 'flex', flexDirection: 'row',
-        // width: 460,
-        // height: 943,
-        '& .MuiTextField-root': { m: 0, marginTop: 2},
-      }}
-      noValidate
-      autoComplete="off"
+      <Box
+        component="form"
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          // width: 460,
+          // height: 943,
+          '& .MuiTextField-root': { m: 0, marginTop: 2 },
+        }}
+        noValidate
+        autoComplete="off"
 
-      // backgroundColor: 'primary.dark',
-      // '&:hover': {
-      //   backgroundColor: 'primary.main',
-      //   opacity: [0.9, 0.8, 0.7],
-      // },
-    >
-      <Stack direction="column" justifyContent={'center'} spacing={2} marginLeft={0}>
-        <h2 style={{textAlign: 'center', color: '#56528D'}}>Dodaj punkt</h2>
-        <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
+        // backgroundColor: 'primary.dark',
+        // '&:hover': {
+        //   backgroundColor: 'primary.main',
+        //   opacity: [0.9, 0.8, 0.7],
+        // },
+      >
+        <Stack direction="column" justifyContent={'center'} spacing={2} marginLeft={0}>
+          <h2 style={{ textAlign: 'center', color: '#56528D' }}>Dodaj punkt</h2>
+          <TextField id="outlined-basic" label="Nazwa produktu" variant="outlined" />
 
-        <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <LocationSearchAutocomplete />
-        <div>
-          <Button variant="outlined" size="small">
-            P
-          </Button>
-          <Button variant="outlined" size="small">
-            W
-          </Button>
-          <Button variant="outlined" size="small">
-            Ś
-          </Button>
-          <Button variant="outlined" size="small">
-            C
-          </Button>
-          <Button variant="outlined" size="small">
-            P
-          </Button>
-          <Button variant="outlined" size="small">
-            S
-          </Button>
-          <Button variant="outlined" size="small">
-            N
-          </Button>
-        </div>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']} sx={{ flexDirection: 'row', justifyItems: 'top' ,gap: 1 }} >
-            <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{  minWidth: 'auto !important' }} />
-            <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{  minWidth: 'auto !important' }} />
-          </DemoContainer>
-        </LocalizationProvider>
-        <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
-          <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
-          <FormControlLabel control={<Checkbox />} label="Zamknięte" />
-        </FormGroup>
-        <div>
+          <TextField id="outlined-select-currency" select label="Kategoria" defaultValue="" helperText="">
+            {currencies.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <LocationSearchAutocomplete />
+          <div>
+            {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter) => {
+              return (
+                <Button variant="outlined" size="small" key={letter}>
+                  {letter}
+                </Button>
+              );
+            })}
+          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer
+              components={['MobileDateTimePicker', 'MobileDateTimePicker']}
+              sx={{ flexDirection: 'row', justifyItems: 'top', gap: 1 }}
+            >
+              <MobileTimePicker label={'Otwarcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
+              <MobileTimePicker label={'Zamknięcie'} openTo="hours" sx={{ minWidth: 'auto !important' }} />
+            </DemoContainer>
+          </LocalizationProvider>
+          <FormGroup sx={{ display: 'flex', flexDirection: 'row', marginLeft: 0 }}>
+            <FormControlLabel control={<Checkbox />} label="Czynne całą dobę" />
+            <FormControlLabel control={<Checkbox />} label="Zamknięte" />
+          </FormGroup>
           <FormGroup>
             <FormControlLabel control={<Switch />} label="Profit" onChange={handleSwitch} />
             {bonus ? (
@@ -156,15 +145,13 @@ const FormPage = () => {
               </TextField>
             ) : null}
           </FormGroup>
-        </div>
-        <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue=""  />
-        
-        <Button variant="contained" size="large">
-          Dodaj punkt do mapy
-        </Button>
-        
-      </Stack>
-    </Box>
+          <TextField id="outlined-multiline-static" label="Dodatkowe informacje" multiline rows={4} defaultValue="" />
+
+          <Button variant="contained" size="large">
+            Dodaj punkt do mapy
+          </Button>
+        </Stack>
+      </Box>
     </ThemeProvider>
   );
 };

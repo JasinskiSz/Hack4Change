@@ -34,6 +34,17 @@ const theme1 = createTheme({
   },
 });
 
+interface DayButtonProps {
+  clicked: boolean;
+}
+
+const DayButton = styled(Button)<DayButtonProps>`
+  background-color: ${({ clicked }) => (clicked ? '#56528D' : '#ffffff')};
+  color: ${({ clicked }) => (clicked ? '#ffffff' : '#56528D')};
+  min-width: 35px;
+  /* margin-right: 10px; */
+`;
+
 const currencies = [
   {
     value: 'baterie',
@@ -83,10 +94,22 @@ const FormPage = () => {
     categories: '',
   });
 
-  const handleInput = (evt) => {
-    const name = evt.target.name;
-    const newValue = evt.target.value;
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const newValue = e.target.value;
     setFormInput({ [name]: newValue });
+  };
+
+  // const [buttons, setButtons] = useState(['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => ({ index, letter, clicked: false })));
+
+  // const handleClick = (index: number) => {
+  //   setButtons((prevButtons) => prevButtons.map((button) => (button.index === index ? { ...button, clicked: !button.clicked } : button)));
+  // };
+
+  const [buttons, setButtons] = useState(['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => ({ index, letter, clicked: false })));
+
+  const handleClick = (index: number) => {
+    setButtons((prevButtons) => prevButtons.map((button) => (button.index === index ? { ...button, clicked: !button.clicked } : button)));
   };
 
   const [bonus, setBonus] = useState(false);
@@ -129,8 +152,7 @@ const FormPage = () => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            // width: 460,
-            // height: 943,
+
             // '& .MuiTextField-root': { m: 0, marginTop: 2 },
           }}
           noValidate
@@ -143,7 +165,7 @@ const FormPage = () => {
           //   opacity: [0.9, 0.8, 0.7],
           // },
         >
-          <Stack direction="column" justifyContent={'center'} spacing={2} padding={4} width="100%">
+          <Stack direction="column" justifyContent={'center'} spacing={2} padding={4} maxWidth={460}>
             <h2 style={{ textAlign: 'center', color: '#56528D' }}>Dodaj punkt</h2>
             <TextField
               id="outlined-basic"
@@ -171,12 +193,24 @@ const FormPage = () => {
               ))}
             </TextField>
             <LocationSearchAutocomplete onSelectedLocation={setLocation} searchValueOverride={location?.address} />
-            <div>
-              {['P', 'W', 'Ś', 'C', 'P', 'S', 'N'].map((letter, index) => {
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              {buttons.map((button) => {
                 return (
-                  <Button variant="outlined" size="small" key={index}>
-                    {letter}
-                  </Button>
+                  <DayButton
+                    clicked={button.clicked ? 'true' : undefined}
+                    onClick={() => handleClick(button.index)}
+                    variant="outlined"
+                    size="small"
+                    key={button.index}
+                  >
+                    {button.letter}
+                  </DayButton>
                 );
               })}
             </div>
@@ -214,7 +248,7 @@ const FormPage = () => {
               name="additionalInfo"
               label="Dodatkowe informacje"
               multiline
-              rows={4}
+              rows={3}
               defaultValue=""
             />
 

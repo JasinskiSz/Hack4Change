@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FormEvent, useReducer, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,10 +24,11 @@ import Map from '@/app/components/map/MapComponent';
 import { useShopsWithWasteRecycling } from '@/app/components/map/shopsWithWasteRecycling';
 import { Grid } from '@mui/material';
 import axios from 'axios';
-import { LatLngLiteral } from 'leaflet';
+import { LatLngLiteral, control } from 'leaflet';
 import { OpenStreetAddress } from '@/app/types';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-const theme1 = createTheme({
+export const theme1 = createTheme({
   palette: {
     primary: {
       main: '#56528D',
@@ -147,11 +149,12 @@ const FormPage = () => {
       <Grid container>
         <Grid
           item
-          xs={4}
+          xs={3}
           component="form"
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            justifyContent: 'center',
 
             // '& .MuiTextField-root': { m: 0, marginTop: 2 },
           }}
@@ -251,13 +254,23 @@ const FormPage = () => {
               rows={3}
               defaultValue=""
             />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <input type="file"></input>
+              <button>dodaj zdjęcie</button>
+            </div>
 
             <Button variant="contained" size="large" type="submit">
               Dodaj punkt do mapy
             </Button>
           </Stack>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <Map
             shopsWithWasteRecycling={shopsWithWasteRecycling}
             selectedAddress={location}
